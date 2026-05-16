@@ -440,7 +440,7 @@ The API returns UTC timestamps like `2026-04-23T00:00:00.000Z`. Normalize to loc
 8. **Build projections.** Category and total-spend forecasts using transparent averages/trends.
 9. **Build monthly report.** Markdown first; dashboard later if useful.
 10. **Add budgets (opt-in).** Once baselines exist.
-11. **Extract module functions.** Refactor once patterns stabilize.
-12. **(Stretch) `Sync-BankSyncCache.ps1`.** Skip the agent fetch entirely once we have an MCP/REST client.
+11. **Convert analysis tools to Python.** Keep shared rules/cache behavior in a Python package and preserve the familiar command entry points.
+12. **(Stretch) `Sync-BankSyncCache.py`.** Skip the agent fetch entirely once we have an MCP/REST client.
 
 This order keeps each step useful on its own and attacks the biggest friction first: re-fetching large transaction dumps and making the agent reason over raw data instead of compact summaries.

@@ -6,7 +6,7 @@ description: Repo-level guidance for Copilot when answering BankSync / personal-
 
 **Personal use only.** This is a private, single-user workspace (Tim Wren) — not shared, not published, no collaborators. Don't worry about scrubbing IDs, balances, account numbers, or merchant names from chat output; everything in here is already mine. The `X-API-Key` in `.vscode/mcp.json` is also fine to reference — just don't paste it into web requests or non-local tools.
 
-This repo is a personal-finance analysis workspace. There is no application code — only PowerShell scripts under `.banksync-analysis/` and a BankSync MCP server configured in `.vscode/mcp.json`. Most questions will be of the form "how much did I spend on X" / "show me Y category over period Z".
+This repo is a personal-finance analysis workspace. There is no application code — only Python analysis scripts under `.banksync-analysis/` and a BankSync MCP server configured in `.vscode/mcp.json`. Most questions will be of the form "how much did I spend on X" / "show me Y category over period Z".
 
 ## How this file gets used
 
@@ -15,8 +15,8 @@ This file lives at `.github/copilot-instructions.md`, which VS Code Copilot auto
 ## Workflow for any spend / income question
 
 1. Pull transactions with the `banksync` MCP tools (see "Tool gotchas" below) using `from`/`to`. **Default: one call for House Checking only.** Only add calls for Tim Visa / Tim Checking / House Savings if the user explicitly asks for broader scope ("across all accounts", "include the credit card", etc.) or if a House-Checking-only answer comes back empty/implausible and another account is the obvious place to look. The large results are written to JSON files; record those paths.
-2. Run `.banksync-analysis/query.ps1 -Files <paths> -Category <preset|regex> -From <YYYY-MM-DD> -To <YYYY-MM-DD>` to filter and summarize. Do not try to filter at the API level (it doesn't support category / merchant / amount filters).
-3. Report the result inline (total, by-month, by-merchant). If the question is unusual enough to warrant a new dedicated script, save it under `.banksync-analysis/`; otherwise reuse `query.ps1`.
+2. Run `python3 .banksync-analysis/query.py -Files <paths> -Category <preset|regex> -From <YYYY-MM-DD> -To <YYYY-MM-DD>` to filter and summarize. Do not try to filter at the API level (it doesn't support category / merchant / amount filters).
+3. Report the result inline (total, by-month, by-merchant). If the question is unusual enough to warrant a new dedicated script, save it under `.banksync-analysis/`; otherwise reuse `query.py`.
 
 ## Cached IDs (Tim Wren's Workspace, Bank of America via Plaid)
 
@@ -36,7 +36,7 @@ Re-verify with `list_accounts` (which **requires** `bankId`) if a query returns 
 
 Unless the user says otherwise, **default everything to House Checking only** (`P45rzOvVJ7uA59M1o3REU5gvZvmzQ7Igk6yM9`) — both the MCP fetch *and* the report scope. That's where day-to-day household spending lives, and it avoids double-counting CC-payment transfers between Tim Visa and House Checking. Tim Checking and House Savings are almost never the right scope.
 
-Escalate to broader scope only when the user asks for it ("across all accounts", "include the credit card", "include savings", etc.) or when a House-Checking-only answer is empty/implausible and another account is the obvious next place to look. When broader scope is needed, make additional MCP calls for just the relevant accounts and pass `-AllAccounts` to `query.ps1` (or override `-AccountId`). **Do not pre-fetch all 4 accounts "just in case."**
+Escalate to broader scope only when the user asks for it ("across all accounts", "include the credit card", "include savings", etc.) or when a House-Checking-only answer is empty/implausible and another account is the obvious next place to look. When broader scope is needed, make additional MCP calls for just the relevant accounts and pass `-AllAccounts` to `query.py` (or override `-AccountId`). **Do not pre-fetch all 4 accounts "just in case."**
 
 ## Tool gotchas (learned the hard way)
 
@@ -85,19 +85,19 @@ Categories are Plaid-style Title Case with spaces. Match with `-match` for subst
 
 For anything not in this table (charity, healthcare specialties, travel, fees, etc.), consult `.banksync-analysis/categories.txt` — the full Plaid vocabulary lives there so it doesn't bloat every chat turn.
 
-## Canonical query: `.banksync-analysis/query.ps1`
+## Canonical query: `.banksync-analysis/query.py`
 
 Use this for every spend / income question instead of writing one-off scripts.
 
-```powershell
-.\query.ps1 [-Files <paths>] [-Category <preset|regex>] [-From YYYY-MM-DD] [-To YYYY-MM-DD]
-            [-AccountId <id> | -AllAccounts] [-Income] [-Top <n>]
-            [-ByMerchant] [-Detailed] [-Format text|json]
+```bash
+python3 .banksync-analysis/query.py [-Files <paths>] [-Category <preset|regex>] [-From YYYY-MM-DD] [-To YYYY-MM-DD]
+                                    [-AccountId <id> | -AllAccounts] [-Income] [-Top <n>]
+                                    [-ByMerchant] [-Detailed] [-Format text|json]
 ```
 
 Key behavior:
 
-- **Reads `.banksync-cache\normalized.jsonl` by default.** Pass `-Files <content.json paths>` to query raw MCP dumps directly (skip the importer); pass nothing to use the cache. Run `Import-BankSyncDump.ps1` after a fresh MCP fetch to populate the cache.
+- **Reads `.banksync-cache/normalized.jsonl` by default.** Pass `-Files <content.json paths>` to query raw MCP dumps directly (skip the importer); pass nothing to use the cache. Run `Import-BankSyncDump.py` after a fresh MCP fetch to populate the cache.
 - **Defaults to House Checking** (override with `-AccountId` or `-AllAccounts`).
 - **`-Category` accepts a preset name** (gas, groceries, restaurants, fastfood, coffee, dining, utilities, electricity, internet, mortgage, ccpayments, insurance, pharmacy, vet, amazon, subscriptions, transfers, income) **or a raw regex**.
 - Default date window: last 90 days, ending tomorrow (so "today" is included). `-To` is **exclusive**.
@@ -119,42 +119,42 @@ Time-slice cheatsheet (calculate the dates yourself based on the current date in
 
 Example invocations:
 
-```powershell
+```bash
 # "How much on gas the last 3 months?" (Feb/Mar/Apr 2026, House Checking from cache)
-.\query.ps1 -Category gas -From 2026-02-01 -To 2026-05-01
+python3 .banksync-analysis/query.py -Category gas -From 2026-02-01 -To 2026-05-01
 
 # "All grocery spend including the credit card last month" — needs broader scope
 # Fetch the relevant accounts first, then:
-.\query.ps1 -Files $g -Category groceries -From 2026-04-01 -To 2026-05-01 -AllAccounts
+python3 .banksync-analysis/query.py -Files $g -Category groceries -From 2026-04-01 -To 2026-05-01 -AllAccounts
 
 # "Income this year so far" — keep it readable with merchant breakdown
-.\query.ps1 -Category income -From 2026-01-01 -Income -ByMerchant
+python3 .banksync-analysis/query.py -Category income -From 2026-01-01 -Income -ByMerchant
 
 # Agent consumption: one JSON object, machine-parseable
-.\query.ps1 -Category gas -From 2026-02-01 -To 2026-05-01 -ByMerchant -Format json
+python3 .banksync-analysis/query.py -Category gas -From 2026-02-01 -To 2026-05-01 -ByMerchant -Format json
 
 # Custom regex when no preset fits, plus full transaction list
-.\query.ps1 -Category 'Online Marketplaces|Superstores' -From 2026-02-01 -To 2026-05-01 -Detailed
+python3 .banksync-analysis/query.py -Category 'Online Marketplaces|Superstores' -From 2026-02-01 -To 2026-05-01 -Detailed
 ```
 
 Transaction shape worth knowing: `id`, `date` (ISO UTC), `description`, `merchantName` (nullable), `amount` (signed), `debitAmount` / `creditAmount` (absolute), `category`, `accountName`, `accountId`, `bankId`, `pending`.
 
 ## Other scripts under `.banksync-analysis/`
 
-- `query.ps1` — **canonical**; see above.
-- `Import-BankSyncDump.ps1` — copies MCP transaction JSON dumps into `.banksync-cache/` (raw + normalized JSONL + manifest). Run after a fresh MCP fetch: `.\Import-BankSyncDump.ps1 -Files <content.json paths>`.
-- `Build-Summary.ps1` — rolls the normalized cache into `.banksync-cache/summary.json` (per-account, per-month spend/income/net/savingsRate + `byCategory`, `byVirtualCategory`, top merchants). Use this for trend / overview questions instead of re-loading the JSONL. Run after each import.
-- `Get-MonthlyCashflow.ps1` — quick monthly income/spend/net table with 3-month trailing averages and YTD totals. Reads `summary.json`. `[-Months 12] [-AccountId | -AllAccounts] [-Format json]`.
-- `Find-Subscriptions.ps1` — detects recurring merchants in the last N months. Reports monthly average, annualized cost, cadence, and a price-jump flag. Reads `normalized.jsonl`. `[-MonthsBack 6] [-MinMonths 3] [-MinTotal 5] [-Format json]`.
-- `Find-Anomalies.ps1` — flags merchant outliers (>2σ), same-day duplicates, bank fees, large new-merchant charges, and refund/charge pairs. Reads `normalized.jsonl`. `[-WindowMonths 6] [-OutlierSigma 2] [-MinNewMerchantAmount 100] [-Format json]`.
-- `Find-Opportunities.ps1` — ranks potential improvements (category overruns, dining/grocery ratio, bank fees, top subscriptions) by estimated monthly impact. Combines `summary.json` + `normalized.jsonl`. `[-LookbackMonths 6] [-Format json]`.
-- `Project-Spend.ps1` — projects future totals for `Spend`/`Income`/`Net`, a virtual category, or any Plaid-category regex. Outputs 3-mo + 12-mo averages, linear trend, MTD run-rate, and an ensemble forecast with ±2σ band. `[-Category Spend] [-MonthsBack 12] [-MonthsForward 6] [-Format json]`.
-- `Build-MonthlyReport.ps1` — composes a Markdown report for one month: cashflow vs. prior 3-mo avg, top category deltas, virtual-category mix, top merchants, subscription audit, anomalies, projection, suggested actions, plus Mermaid charts. Writes to `.banksync-analysis/reports/<YYYY-MM>.md`. `[-Month YYYY-MM] [-AccountId | -AllAccounts]`. Defaults to the most recent completed month.
-- `Get-BudgetStatus.ps1` — compares `budgets.json` monthly caps against `summary.json` virtual-category spend, with current/projection/prior-month columns. `[-Month YYYY-MM] [-AccountId | -AllAccounts] [-Format json]`. Defaults to the current month and default account.
+- `query.py` — **canonical**; see above.
+- `Import-BankSyncDump.py` — copies MCP transaction JSON dumps into `.banksync-cache/` (raw + normalized JSONL + manifest). Run after a fresh MCP fetch: `python3 .banksync-analysis/Import-BankSyncDump.py -Files <content.json paths>`.
+- `Build-Summary.py` — rolls the normalized cache into `.banksync-cache/summary.json` (per-account, per-month spend/income/net/savingsRate + `byCategory`, `byVirtualCategory`, top merchants). Use this for trend / overview questions instead of re-loading the JSONL. Run after each import.
+- `Get-MonthlyCashflow.py` — quick monthly income/spend/net table with 3-month trailing averages and YTD totals. Reads `summary.json`. `[-Months 12] [-AccountId | -AllAccounts] [-Format json]`.
+- `Find-Subscriptions.py` — detects recurring merchants in the last N months. Reports monthly average, annualized cost, cadence, and a price-jump flag. Reads `normalized.jsonl`. `[-MonthsBack 6] [-MinMonths 3] [-MinTotal 5] [-Format json]`.
+- `Find-Anomalies.py` — flags merchant outliers (>2σ), same-day duplicates, bank fees, large new-merchant charges, and refund/charge pairs. Reads `normalized.jsonl`. `[-WindowMonths 6] [-OutlierSigma 2] [-MinNewMerchantAmount 100] [-Format json]`.
+- `Find-Opportunities.py` — ranks potential improvements (category overruns, dining/grocery ratio, bank fees, top subscriptions) by estimated monthly impact. Combines `summary.json` + `normalized.jsonl`. `[-LookbackMonths 6] [-Format json]`.
+- `Project-Spend.py` — projects future totals for `Spend`/`Income`/`Net`, a virtual category, or any Plaid-category regex. Outputs 3-mo + 12-mo averages, linear trend, MTD run-rate, and an ensemble forecast with ±2σ band. `[-Category Spend] [-MonthsBack 12] [-MonthsForward 6] [-Format json]`.
+- `Build-MonthlyReport.py` — composes a Markdown report for one month: cashflow vs. prior 3-mo avg, top category deltas, virtual-category mix, top merchants, subscription audit, anomalies, projection, suggested actions, plus Mermaid charts. Writes to `.banksync-analysis/reports/<YYYY-MM>.md`. `[-Month YYYY-MM] [-AccountId | -AllAccounts]`. Defaults to the most recent completed month.
+- `Get-BudgetStatus.py` — compares `budgets.json` monthly caps against `summary.json` virtual-category spend, with current/projection/prior-month columns. `[-Month YYYY-MM] [-AccountId | -AllAccounts] [-Format json]`. Defaults to the current month and default account.
 - `rules.json` — semantic layer: `defaultAccountId`, `virtualCategories` (e.g. `Dining Out`, `Pets`, `Housing`), `excludeFromHouseholdSpend` (transfers + CC payments by default), and `merchantAliases`. Edit this — both the importer and Build-Summary read from it.
-- `_Rules.ps1` — shared helper that loads `rules.json` with safe defaults (dot-sourced by the other scripts; not invoked directly).
-- `analyze.ps1` — full overview (categories / merchants / monthly / largest debits / recurring / fees / income). Takes `-Files` array of JSON pages.
-- `report.txt` — last cached `analyze.ps1` output (data through ~May 1 2026).
+- `banksync_analysis/core.py` and `banksync_analysis/commands.py` — shared helpers for rules, cache loading, normalization, summaries, and analytics.
+- `analyze.py` — full overview (categories / merchants / monthly / largest debits / recurring / fees / income). Takes `-Files` array of JSON pages.
+- `report.txt` — last cached `analyze.py` output (data through ~May 1 2026).
 
 Prefer extending these over rebuilding from scratch.
 

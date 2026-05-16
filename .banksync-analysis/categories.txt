@@ -2,7 +2,7 @@
 
 Categories observed across this workspace's transaction history, plus common
 Plaid-taxonomy entries the agent may need when a question doesn't match a
-preset in `.banksync-analysis/query.ps1`. Format: Title Case, words separated
+preset in `.banksync-analysis/query.py`. Format: Title Case, words separated
 by single spaces. Match with `-match` for substring filtering.
 
 The most-used categories are kept inline in `.github/copilot-instructions.md`

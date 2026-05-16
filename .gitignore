@@ -6,3 +6,15 @@
 
 # Stray VS Code session dumps that may end up in the workspace
 *.session.json
+
+# Python build artifacts
+__pycache__/
+*.py[cod]
+
+# Python virtual environments
+.venv/
+.venv-*/
+
+# Local planning and handoff notes
+IMPROVEMENT_PLAN.md
+NEXT_CHAT_HANDOFF.md
