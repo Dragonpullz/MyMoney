@@ -1,10 +1,18 @@
 {
+  "inputs": [
+    {
+      "id": "banksyncApiKey",
+      "type": "promptString",
+      "description": "BankSync API key",
+      "password": true
+    }
+  ],
   "servers": {
     "banksync": {
       "type": "http",
       "url": "https://mcp.banksync.io",
       "headers": {
-        "X-API-Key": ""
+        "X-API-Key": "${input:banksyncApiKey}"
       }
     }
   }

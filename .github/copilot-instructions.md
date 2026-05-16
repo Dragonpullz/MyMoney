@@ -4,7 +4,7 @@ description: Repo-level guidance for Copilot when answering BankSync / personal-
 
 # Showshare — Copilot base prompt
 
-**Personal use only.** This is a private, single-user workspace (Tim Wren) — not shared, not published, no collaborators. Don't worry about scrubbing IDs, balances, account numbers, or merchant names from chat output; everything in here is already mine. The `X-API-Key` in `.vscode/mcp.json` is also fine to reference — just don't paste it into web requests or non-local tools.
+**Personal use only.** This is a private, single-user workspace (Tim Wren). Financial IDs, balances, account numbers, and merchant names are okay to reference in local chat output. Do not store live API keys in tracked files, paste them into web requests, or send them to non-local tools. The BankSync MCP config prompts for the API key through `.vscode/mcp.json` instead of checking the key into git.
 
 This repo is a personal-finance analysis workspace. There is no application code — only Python analysis scripts under `.banksync-analysis/` and a BankSync MCP server configured in `.vscode/mcp.json`. Most questions will be of the form "how much did I spend on X" / "show me Y category over period Z".
 

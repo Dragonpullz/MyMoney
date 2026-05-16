@@ -15,6 +15,10 @@ __pycache__/
 .venv/
 .venv-*/
 
+# Local secrets
+.env
+.env.*
+
 # Local planning and handoff notes
 IMPROVEMENT_PLAN.md
 NEXT_CHAT_HANDOFF.md
