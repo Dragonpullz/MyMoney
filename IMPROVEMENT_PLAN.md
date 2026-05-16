@@ -12,11 +12,12 @@ The product intent is bigger than ad-hoc spend questions: analyze spending patte
 
 ## Key Corrections From Repo Review
 
-1. **PowerShell cannot call MCP tools directly.** The BankSync MCP tools are available to the AI agent, not to local PowerShell scripts. Any plan that says `Refresh-Cache.ps1` will call `mcp_banksync_get_transactions` directly is wrong unless a separate local BankSync API client is added later.
+1. **Today, only the agent can fetch BankSync data.** The MCP server at `https://mcp.banksync.io` uses MCP's Streamable HTTP transport (JSON-RPC), and this repo has no local MCP/REST client. PowerShell *could* call the server with a small `Invoke-RestMethod` client once the transport, auth, and session details are verified (and BankSync may also expose a plain REST API), but until a `Sync-BankSyncCache.ps1` exists, local scripts must consume cached JSON. Building that client later is the single biggest possible token win — the agent never has to run the fetch turn.
 2. **The right split is agent fetch -> local import.** The agent should fetch transactions with MCP and save/record result JSON paths. Local scripts should import those JSON files into a persistent cache, normalize, summarize, query, and report.
 3. **House Checking is the default reporting scope.** This is already in `.github/copilot-instructions.md` and `query.ps1`. Future tooling should preserve that default unless the user asks for all accounts or a specific account.
-4. **`query.ps1` is useful but too chatty.** It always prints merchant and transaction details, which is good for debugging but expensive for normal answers.
-5. **Generated snapshots should not become the data source.** `report.txt` and `focused.txt` are useful historical outputs, but future scripts should use cached normalized transactions and generated summaries.
+4. **The agent should also default its *fetch* to House Checking only.** Today `.github/copilot-instructions.md` still tells the agent to pull all 4 accounts "just in case," which is the bulk of the per-session MCP cost. Update that live instruction file so future sessions pull only House Checking on the first turn, then escalate to Tim Visa / Tim Checking / House Savings only when the question, a low-confidence answer, or an `-AllAccounts`-style request requires it.
+5. **`query.ps1` is useful but too chatty.** It always prints merchant and transaction details, which is good for debugging but expensive for normal answers.
+6. **Generated snapshots should not become the data source.** `report.txt` and `focused.txt` are useful historical outputs, but future scripts should use cached normalized transactions and generated summaries.
 
 ## North-Star Workflows
 
@@ -117,6 +118,10 @@ param(
 ```
 
 If `-Files` is omitted and the cache exists, use the cache. This makes normal calls shorter and less error-prone.
+
+### Trim the Categories Table in `copilot-instructions.md`
+
+`.github/copilot-instructions.md` is loaded into every Copilot chat in this workspace. Its inline category table currently lists ~13 categories — fine — but the *full* Plaid category vocabulary should not live there. Keep only the ~12 most common categories inline as a quick lookup, and move the complete list to `.banksync-analysis/categories.txt`. The agent reads the full list on demand when a question doesn't match a preset. Same idea for the merchant/cached IDs section: keep the four accounts inline, move anything that grows over time into a separate file.
 
 ## Phase 3: Semantic Layer
 
@@ -283,6 +288,23 @@ Defaulting to House Checking avoids double-counting credit-card payments, but it
 
 This lets future reports use all accounts accurately instead of relying on House Checking as a proxy.
 
+### Budgets (Opt-In)
+
+Once baselines exist (~3 months of clean cache), add `.banksync-analysis/budgets.json`:
+
+```json
+{
+  "Food And Drink Restaurant": { "monthlyTarget": 300 },
+  "Food And Drink Coffee":     { "monthlyTarget": 60 },
+  "Transportation Gas":        { "monthlyTarget": 350 },
+  "Dining Out":                { "monthlyTarget": 400 }
+}
+```
+
+`Get-BudgetStatus.ps1` shows each category's current-month spend vs. target, percent consumed, and a day-of-month run-rate projection for end of month. Virtual categories from `rules.json` should be valid keys, not just raw Plaid categories.
+
+Deliberately a later phase: setting targets before you know your real baseline produces wrong numbers and is demotivating.
+
 ## Phase 6: Visualizations and Reports
 
 ### Option A: Markdown Reports With Mermaid
@@ -395,25 +417,30 @@ The API returns UTC timestamps like `2026-04-23T00:00:00.000Z`. Normalize to loc
 
 ## Helpful Ideas Not Yet in the Repo
 
-- **Decision log:** track actions like canceling a subscription or changing grocery habits. Reports can then explain why spending changed.
+- **Decision log with spend-delta attribution:** `.banksync-analysis/decisions.md` records actions like "cancelled HBO 2026-05," "switched to Costco gas 2026-06," "renegotiated AT&T 2026-07." Monthly reports then *attribute* observed deltas — "Dining Out down $180 vs. 3-month average, consistent with the 2026-05 decision to drop Starbucks" — instead of just listing changes. This is the only way to tell intentional improvements apart from noise.
 - **What-if calculator:** estimate annual savings from cutting a merchant, reducing a category by X%, or switching from delivery to in-store grocery.
 - **Lifestyle creep metric:** discretionary spend as a percentage of income over time.
 - **Merchant normalization:** collapse `Instacart Instacart.comca`, raw descriptions, and merchant aliases into stable names.
 - **Pet and house sub-ledgers:** virtual categories for recurring household themes that Plaid categories split across many buckets.
 - **Bill renegotiation watchlist:** telecom, insurance, utilities, and subscriptions where the monthly charge is high or rising.
+- **Charity / one-time gifts split:** tag large irregular debits (gifts, charity, one-off purchases) so they don't poison monthly averages or projections.
+- **Receipts integration:** BankSync supports `receipts` as a data type with AI extraction. Forwarding Amazon / Costco / restaurant order emails would produce line-item data that joins back to the bank charge via amount + date, unlocking "what did I actually buy at Amazon last month" questions that aren't answerable from the bank txn alone.
 - **Tax/export view:** yearly CSV grouped by category and merchant, with a blank `TaxNote` column for manual annotation.
 - **Monthly digest prompt:** `.github/prompts/monthly-digest.prompt.md` that instructs Copilot to refresh if needed, build the report, and summarize the top findings.
 
 ## Recommended Execution Order
 
 1. **Add `.gitignore`.** Protect cache and generated reports from accidental commits.
-2. **Build `Import-BankSyncDump.ps1`.** Copy MCP JSON dumps into `.banksync-cache/`, normalize, dedup, and write `normalized.jsonl`.
-3. **Update `query.ps1`.** Default to cache, add `-Format Json`, `-ByMerchant`, and `-Detailed`.
-4. **Build `Build-Summary.ps1`.** Generate `summary.json` for fast answers.
-5. **Add semantic rules.** Create `rules.json` for virtual categories, exclusions, merchant aliases, and default account behavior.
-6. **Build core analytics.** Cashflow, subscriptions, anomalies, and opportunities.
-7. **Build projections.** Category and total-spend forecasts using transparent averages/trends.
-8. **Build monthly report.** Markdown first; dashboard later if useful.
-9. **Extract module functions.** Refactor once patterns stabilize.
+2. **Trim `copilot-instructions.md`** and update the agent's default MCP fetch to House Checking only. This removes the current instruction conflict and is a pure token win.
+3. **Build `Import-BankSyncDump.ps1`.** Copy MCP JSON dumps into `.banksync-cache/`, normalize, dedup, and write `normalized.jsonl`.
+4. **Update `query.ps1`.** Default to cache, add `-Format Json`, `-ByMerchant`, and `-Detailed`.
+5. **Build `Build-Summary.ps1`.** Generate `summary.json` for fast answers.
+6. **Add semantic rules.** Create `rules.json` for virtual categories, exclusions, merchant aliases, and default account behavior.
+7. **Build core analytics.** Cashflow, subscriptions, anomalies, and opportunities.
+8. **Build projections.** Category and total-spend forecasts using transparent averages/trends.
+9. **Build monthly report.** Markdown first; dashboard later if useful.
+10. **Add budgets (opt-in).** Once baselines exist.
+11. **Extract module functions.** Refactor once patterns stabilize.
+12. **(Stretch) `Sync-BankSyncCache.ps1`.** Skip the agent fetch entirely once we have an MCP/REST client.
 
 This order keeps each step useful on its own and attacks the biggest friction first: re-fetching large transaction dumps and making the agent reason over raw data instead of compact summaries.

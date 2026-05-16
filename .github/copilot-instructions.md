@@ -14,7 +14,7 @@ This file lives at `.github/copilot-instructions.md`, which VS Code Copilot auto
 
 ## Workflow for any spend / income question
 
-1. Pull transactions with the `banksync` MCP tools (see "Tool gotchas" below) — one call per account, using `from`/`to`. The large results are written to JSON files; record those paths.
+1. Pull transactions with the `banksync` MCP tools (see "Tool gotchas" below) using `from`/`to`. **Default: one call for House Checking only.** Only add calls for Tim Visa / Tim Checking / House Savings if the user explicitly asks for broader scope ("across all accounts", "include the credit card", etc.) or if a House-Checking-only answer comes back empty/implausible and another account is the obvious place to look. The large results are written to JSON files; record those paths.
 2. Run `.banksync-analysis/query.ps1 -Files <paths> -Category <preset|regex> -From <YYYY-MM-DD> -To <YYYY-MM-DD>` to filter and summarize. Do not try to filter at the API level (it doesn't support category / merchant / amount filters).
 3. Report the result inline (total, by-month, by-merchant). If the question is unusual enough to warrant a new dedicated script, save it under `.banksync-analysis/`; otherwise reuse `query.ps1`.
 
@@ -34,9 +34,9 @@ Re-verify with `list_accounts` (which **requires** `bankId`) if a query returns 
 
 ### Default account
 
-Unless the user says otherwise, **default all spend questions to House Checking only** (`P45rzOvVJ7uA59M1o3REU5gvZvmzQ7Igk6yM9`). That's where the day-to-day household spending lives, and it avoids double-counting CC-payment transfers between Tim Visa and House Checking. The user can opt into a broader view by saying things like "across all accounts", "include the credit card", "include savings", etc. — in which case pass `-AllAccounts` to `query.ps1` (or override `-AccountId`).
+Unless the user says otherwise, **default everything to House Checking only** (`P45rzOvVJ7uA59M1o3REU5gvZvmzQ7Igk6yM9`) — both the MCP fetch *and* the report scope. That's where day-to-day household spending lives, and it avoids double-counting CC-payment transfers between Tim Visa and House Checking. Tim Checking and House Savings are almost never the right scope.
 
-Which accounts to pull from MCP is a separate question from which to *report* on. When in doubt, pull all 4 accounts (so the JSON cache is complete) and let `query.ps1` do the account filtering.
+Escalate to broader scope only when the user asks for it ("across all accounts", "include the credit card", "include savings", etc.) or when a House-Checking-only answer is empty/implausible and another account is the obvious next place to look. When broader scope is needed, make additional MCP calls for just the relevant accounts and pass `-AllAccounts` to `query.ps1` (or override `-AccountId`). **Do not pre-fetch all 4 accounts "just in case."**
 
 ## Tool gotchas (learned the hard way)
 
@@ -46,7 +46,7 @@ Accepted params **only**: `workspaceId`, `bankId`, `accountId`, `cursor`, `from`
 
 For historical / multi-month analysis on Plaid banks, **use `from`/`to` (YYYY-MM-DD)**. Do **not** chain `cursor` — incremental cursor sync frequently returns empty `transactions[]` with `hasMore: true` for many pages and is the wrong shape for bulk pulls.
 
-One call per account. Spending across the household is split between **House Checking** and **Tim Visa**; ignore savings for spend questions unless asked.
+One call per account, and by default the only account is House Checking. Spending across the household lives almost entirely there; Tim Visa is the only other meaningful spend account, and only pull it when the user explicitly asks for credit-card or all-accounts scope. Ignore Tim Checking and House Savings for spend questions unless asked.
 
 ### `mcp_banksync_list_accounts`
 
