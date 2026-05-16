@@ -1,0 +1,20 @@
+{
+  "defaultAccountId": "P45rzOvVJ7uA59M1o3REU5gvZvmzQ7Igk6yM9",
+  "defaultAccountName": "House Checking",
+  "currency": "USD",
+  "monthly": {
+    "Groceries": 700,
+    "Dining Out": 250,
+    "Gas": 250,
+    "Transit": 75,
+    "Pets": 200,
+    "Health": 300,
+    "Housing": 3500,
+    "Insurance": 500,
+    "Entertainment": 150,
+    "Subscriptions": 150,
+    "Shopping": 400,
+    "Travel": 300,
+    "Fees": 25
+  }
+}
