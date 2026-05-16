@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}MyMoney · Report {{ month }}{% endblock %}
+
+{% block content %}
+<h1>Monthly report · {{ month }}</h1>
+
+{% if missing %}
+  <p class="empty">
+    No report found at <code>.banksync-analysis/reports/{{ month }}.md</code>.
+    Generate it by running <code>Build-MonthlyReport.py</code>.
+  </p>
+{% else %}
+  <article class="report-body">
+    {{ body | safe }}
+  </article>
+{% endif %}
+{% endblock %}

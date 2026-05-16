@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}MyMoney · Home{% endblock %}
+
+{% block content %}
+<h1>MyMoney</h1>
+
+{% if kpis.month %}
+  <section class="kpis">
+    <article>
+      <h3>{{ kpis.month }} Spend</h3>
+      <p class="kpi-value">{{ kpis.spend | money }}</p>
+    </article>
+    <article>
+      <h3>{{ kpis.month }} Income</h3>
+      <p class="kpi-value">{{ kpis.income | money }}</p>
+    </article>
+    <article>
+      <h3>{{ kpis.month }} Net</h3>
+      <p class="kpi-value">{{ kpis.net | money }}</p>
+    </article>
+  </section>
+  <p class="muted">Scope: {{ kpis.scope or "(default account)" }}</p>
+{% else %}
+  <p class="empty">
+    No cached data yet. Upload one or more BankSync MCP dump JSON files below
+    to populate <code>.banksync-cache/</code>.
+  </p>
+{% endif %}
+
+<p class="muted">
+  Last refreshed: {{ last_refreshed or "never" }}
+</p>
+
+<section class="refresh">
+  <h2>Refresh data</h2>
+  <form action="{{ url_for('refresh.refresh') }}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>
+      MCP dump JSON file(s):
+      <input type="file" name="dumps" accept="application/json,.json" multiple required>
+    </label>
+    <button type="submit">Refresh</button>
+  </form>
+  <p class="muted">
+    Runs <code>Import-BankSyncDump.py</code> then <code>Build-Summary.py</code>
+    against the uploaded dump(s), then clears in-process caches.
+  </p>
+</section>
+{% endblock %}

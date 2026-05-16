@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}MyMoney · Opportunities{% endblock %}
+
+{% block content %}
+<h1>Opportunities</h1>
+
+<form method="get" class="filters">
+  <label>Lookback months <input type="number" name="lookback_months" min="1" max="24" value="{{ defaults.lookback_months }}"></label>
+  <label>
+    Account
+    <select name="account_id">
+      {% for acct_id, acct_name in accounts %}
+        <option value="{{ acct_id }}" {% if acct_id == defaults.account_id %}selected{% endif %}>{{ acct_name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label><input type="checkbox" name="all_accounts" value="1" {% if defaults.all_accounts %}checked{% endif %}> All accounts</label>
+  <button type="submit">Run</button>
+</form>
+
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+{% if result is not none %}
+  <table>
+    <thead><tr><th>Title</th><th>Estimated monthly impact</th><th>Detail</th></tr></thead>
+    <tbody>
+      {% for row in result %}
+        <tr>
+          <td>{{ row.title or row.name or "" }}</td>
+          <td>{{ row.estimatedMonthlyImpact | money }}</td>
+          <td>{{ row.detail or row.note or "" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}

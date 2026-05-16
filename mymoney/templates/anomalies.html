@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}MyMoney · Anomalies{% endblock %}
+
+{% block content %}
+<h1>Anomalies</h1>
+
+<form method="get" class="filters">
+  <label>Window months <input type="number" name="window_months" min="1" max="24" value="{{ defaults.window_months }}"></label>
+  <label>Sigma <input type="number" name="outlier_sigma" min="1" step="0.1" value="{{ defaults.outlier_sigma }}"></label>
+  <label>Min new-merchant $ <input type="number" name="min_new_merchant_amount" min="0" step="1" value="{{ defaults.min_new_merchant_amount }}"></label>
+  <label>
+    Account
+    <select name="account_id">
+      {% for acct_id, acct_name in accounts %}
+        <option value="{{ acct_id }}" {% if acct_id == defaults.account_id %}selected{% endif %}>{{ acct_name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label><input type="checkbox" name="all_accounts" value="1" {% if defaults.all_accounts %}checked{% endif %}> All accounts</label>
+  <button type="submit">Run</button>
+</form>
+
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+{% if result is not none %}
+  <table>
+    <thead><tr><th>Date</th><th>Kind</th><th>Merchant</th><th>Amount</th><th>Note</th></tr></thead>
+    <tbody>
+      {% for row in result %}
+        <tr>
+          <td>{{ row.date or "" }}</td>
+          <td>{{ row.kind or row.type or "" }}</td>
+          <td>{{ row.merchant or "" }}</td>
+          <td>{{ row.amount | money }}</td>
+          <td>{{ row.note or row.reason or "" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}
