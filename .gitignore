@@ -1,0 +1,8 @@
+# Transaction cache (gitignored)
+.banksync-cache/
+
+# Generated reports
+.banksync-analysis/reports/
+
+# Stray VS Code session dumps that may end up in the workspace
+*.session.json

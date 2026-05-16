@@ -1,0 +1,155 @@
+# Plaid category vocabulary (full reference)
+
+Categories observed across this workspace's transaction history, plus common
+Plaid-taxonomy entries the agent may need when a question doesn't match a
+preset in `.banksync-analysis/query.ps1`. Format: Title Case, words separated
+by single spaces. Match with `-match` for substring filtering.
+
+The most-used categories are kept inline in `.github/copilot-instructions.md`
+so they're always in context. Use this file when something more obscure is
+needed (charity, healthcare, travel, fees, etc.).
+
+## Income
+
+- Income Wages
+- Income Other Income
+- Income Tax Refund
+- Income Retirement Pension
+- Income Dividends
+- Income Interest Earned
+
+## Transfers
+
+- Transfer In
+- Transfer Out
+- Transfer In Account Transfer
+- Transfer Out Account Transfer
+- Transfer In Deposit
+- Transfer Out Withdrawal
+- Transfer Out Investment And Retirement Funds
+
+## Loan payments
+
+- Loan Payments Mortgage Payment
+- Loan Payments Credit Card Payment
+- Loan Payments Car Payment
+- Loan Payments Student Loan Payment
+- Loan Payments Personal Loan Payment
+- Loan Payments Other Payment
+
+## Bank fees
+
+- Bank Fees ATM Fees
+- Bank Fees Foreign Transaction Fees
+- Bank Fees Overdraft Fees
+- Bank Fees Insufficient Funds
+- Bank Fees Interest Charge
+- Bank Fees Other Bank Fees
+
+## Food and drink
+
+- Food And Drink Groceries
+- Food And Drink Restaurant
+- Food And Drink Fast Food
+- Food And Drink Coffee
+- Food And Drink Beer Wine And Liquor
+- Food And Drink Vending Machines
+- Food And Drink Other Food And Drink
+
+## Transportation
+
+- Transportation Gas
+- Transportation Parking
+- Transportation Public Transit
+- Transportation Taxis And Ride Shares
+- Transportation Tolls
+- Transportation Bikes And Scooters
+- Transportation Other Transportation
+
+## Travel
+
+- Travel Flights
+- Travel Lodging
+- Travel Rental Cars
+- Travel Gas Stations
+- Travel Other Travel
+
+## Rent and utilities
+
+- Rent And Utilities Rent
+- Rent And Utilities Gas And Electricity
+- Rent And Utilities Water
+- Rent And Utilities Sewage And Waste Management
+- Rent And Utilities Telephone
+- Rent And Utilities Internet And Cable
+- Rent And Utilities Other Utilities
+
+## General merchandise
+
+- General Merchandise Online Marketplaces
+- General Merchandise Superstores
+- General Merchandise Department Stores
+- General Merchandise Discount Stores
+- General Merchandise Convenience Stores
+- General Merchandise Clothing And Accessories
+- General Merchandise Electronics
+- General Merchandise Office Supplies
+- General Merchandise Pet Supplies
+- General Merchandise Sporting Goods
+- General Merchandise Bookstores
+- General Merchandise Gift And Novelty Stores
+- General Merchandise Other General Merchandise
+
+## General services
+
+- General Services Insurance
+- General Services Storage
+- General Services Postage And Shipping
+- General Services Cable And Satellite
+- General Services Childcare
+- General Services Education
+- General Services Accounting And Financial Planning
+- General Services Automotive
+- General Services Consulting And Legal
+- General Services Other General Services
+
+## Personal care
+
+- Personal Care Gyms And Fitness Centers
+- Personal Care Hair And Beauty
+- Personal Care Laundry And Dry Cleaning
+- Personal Care Other Personal Care
+
+## Medical
+
+- Medical Pharmacies And Supplements
+- Medical Veterinary Services
+- Medical Primary Care
+- Medical Dental Care
+- Medical Eye Care
+- Medical Nursing Care
+- Medical Other Medical
+
+## Home improvement
+
+- Home Improvement Furniture
+- Home Improvement Hardware
+- Home Improvement Repair And Maintenance
+- Home Improvement Security
+- Home Improvement Other Home Improvement
+
+## Entertainment
+
+- Entertainment Tv And Movies
+- Entertainment Music And Audio
+- Entertainment Sporting Events Amusement Parks And Museums
+- Entertainment Casinos And Gambling
+- Entertainment Video Games
+- Entertainment Other Entertainment
+
+## Government and non-profit
+
+- Government And Non Profit Tax Payment
+- Government And Non Profit Donations
+- Government And Non Profit Government Departments And Agencies
+- Government And Non Profit Other Government And Non Profit

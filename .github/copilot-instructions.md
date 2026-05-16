@@ -82,24 +82,29 @@ Categories are Plaid-style Title Case with spaces. Match with `-match` for subst
 | Pharmacy | `Medical Pharmacies And Supplements` |
 | Vet | `Medical Veterinary Services` |
 | Amazon-ish | `General Merchandise Online Marketplaces` |
-| Subscriptions | usually `General Services Other General Services` or `Entertainment ...` |
+
+For anything not in this table (charity, healthcare specialties, travel, fees, etc.), consult `.banksync-analysis/categories.txt` — the full Plaid vocabulary lives there so it doesn't bloat every chat turn.
 
 ## Canonical query: `.banksync-analysis/query.ps1`
 
 Use this for every spend / income question instead of writing one-off scripts.
 
 ```powershell
-.\query.ps1 -Files <paths> [-Category <preset|regex>] [-From YYYY-MM-DD] [-To YYYY-MM-DD]
+.\query.ps1 [-Files <paths>] [-Category <preset|regex>] [-From YYYY-MM-DD] [-To YYYY-MM-DD]
             [-AccountId <id> | -AllAccounts] [-Income] [-Top <n>]
+            [-ByMerchant] [-Detailed] [-Format text|json]
 ```
 
 Key behavior:
 
+- **Reads `.banksync-cache\normalized.jsonl` by default.** Pass `-Files <content.json paths>` to query raw MCP dumps directly (skip the importer); pass nothing to use the cache. Run `Import-BankSyncDump.ps1` after a fresh MCP fetch to populate the cache.
 - **Defaults to House Checking** (override with `-AccountId` or `-AllAccounts`).
 - **`-Category` accepts a preset name** (gas, groceries, restaurants, fastfood, coffee, dining, utilities, electricity, internet, mortgage, ccpayments, insurance, pharmacy, vet, amazon, subscriptions, transfers, income) **or a raw regex**.
 - Default date window: last 90 days, ending tomorrow (so "today" is included). `-To` is **exclusive**.
 - `-Income` sums `creditAmount` instead of `debitAmount` (use for income / refunds / transfers in).
-- Dedupes by transaction `id` and prints total + by-month + by-merchant + raw transactions.
+- Default output is concise: total + by-month only. Add `-ByMerchant` for merchant breakdown, `-Detailed` for full transaction list.
+- `-Format json` emits one compact JSON object (suppresses all human output) — use this when the agent needs to parse the result.
+- Dedupes by transaction `id`.
 
 Time-slice cheatsheet (calculate the dates yourself based on the current date in context):
 
@@ -115,17 +120,21 @@ Time-slice cheatsheet (calculate the dates yourself based on the current date in
 Example invocations:
 
 ```powershell
-# "How much on gas the last 3 months?" (Feb/Mar/Apr 2026)
-.\query.ps1 -Files $g -Category gas -From 2026-02-01 -To 2026-05-01
+# "How much on gas the last 3 months?" (Feb/Mar/Apr 2026, House Checking from cache)
+.\query.ps1 -Category gas -From 2026-02-01 -To 2026-05-01
 
-# "All grocery spend including the credit card last month"
+# "All grocery spend including the credit card last month" — needs broader scope
+# Fetch the relevant accounts first, then:
 .\query.ps1 -Files $g -Category groceries -From 2026-04-01 -To 2026-05-01 -AllAccounts
 
-# "Income this year so far"
-.\query.ps1 -Files $g -Category income -From 2026-01-01 -Income -AllAccounts
+# "Income this year so far" — keep it readable with merchant breakdown
+.\query.ps1 -Category income -From 2026-01-01 -Income -ByMerchant
 
-# Custom regex when no preset fits
-.\query.ps1 -Files $g -Category 'Online Marketplaces|Superstores' -From 2026-02-01 -To 2026-05-01
+# Agent consumption: one JSON object, machine-parseable
+.\query.ps1 -Category gas -From 2026-02-01 -To 2026-05-01 -ByMerchant -Format json
+
+# Custom regex when no preset fits, plus full transaction list
+.\query.ps1 -Category 'Online Marketplaces|Superstores' -From 2026-02-01 -To 2026-05-01 -Detailed
 ```
 
 Transaction shape worth knowing: `id`, `date` (ISO UTC), `description`, `merchantName` (nullable), `amount` (signed), `debitAmount` / `creditAmount` (absolute), `category`, `accountName`, `accountId`, `bankId`, `pending`.
@@ -133,9 +142,9 @@ Transaction shape worth knowing: `id`, `date` (ISO UTC), `description`, `merchan
 ## Other scripts under `.banksync-analysis/`
 
 - `query.ps1` — **canonical**; see above.
+- `Import-BankSyncDump.ps1` — copies MCP transaction JSON dumps into `.banksync-cache/` (raw + normalized JSONL + manifest). Run after a fresh MCP fetch: `.\Import-BankSyncDump.ps1 -Files <content.json paths>`.
 - `analyze.ps1` — full overview (categories / merchants / monthly / largest debits / recurring / fees / income). Takes `-Files` array of JSON pages.
-- `focused.ps1` — targeted category drill-downs (older; `query.ps1` covers most of this).
-- `report.txt` / `focused.txt` — last cached outputs (data through ~May 1 2026).
+- `report.txt` — last cached `analyze.ps1` output (data through ~May 1 2026).
 
 Prefer extending these over rebuilding from scratch.
 
