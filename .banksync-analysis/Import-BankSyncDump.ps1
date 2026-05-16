@@ -45,25 +45,10 @@ $null = New-Item -ItemType Directory -Force -Path $RawRoot
 $NormalizedPath = Join-Path $CacheRoot 'normalized.jsonl'
 $ManifestPath = Join-Path $CacheRoot 'manifest.json'
 
-# Merchant normalization (starter set; promote to rules.json in Phase 3)
-$merchantAliases = [ordered]@{
-    'AMAZON MKTPL'  = 'Amazon'
-    'AMZN MKTP'     = 'Amazon'
-    'AMAZON\.COM'   = 'Amazon'
-    'IC\* INSTACART'= 'Instacart'
-    'INSTACART'     = 'Instacart'
-    'TRADER JOE'    = "Trader Joe's"
-    'FOOD 4 LESS'   = 'Food 4 Less'
-    'COSTCO'        = 'Costco'
-    'CHEVRON'       = 'Chevron'
-    'SHELL OIL'     = 'Shell'
-    '\bSHELL\b'     = 'Shell'
-    'NETFLIX'       = 'Netflix'
-    'SPOTIFY'       = 'Spotify'
-    'HBO MAX'       = 'HBO Max'
-    'OPENAI'        = 'OpenAI'
-    'GITHUB'        = 'GitHub'
-}
+# Merchant normalization is driven by rules.json (see _Rules.ps1).
+. (Join-Path $PSScriptRoot '_Rules.ps1')
+$rules = Get-BankSyncRules
+$merchantAliases = Get-MerchantAliasMap -Rules $rules
 
 function ConvertTo-NormalizedMerchant {
     param([string]$MerchantName, [string]$Description)
@@ -71,8 +56,8 @@ function ConvertTo-NormalizedMerchant {
     if (-not $candidate -and $Description) {
         $candidate = ($Description -split '\s{2,}|DES:|ID:')[0].Trim()
     }
-    foreach ($pattern in $merchantAliases.Keys) {
-        if ($candidate -match $pattern) { return $merchantAliases[$pattern] }
+    foreach ($alias in $merchantAliases) {
+        if ($candidate -match $alias.pattern) { return $alias.name }
     }
     return $candidate
 }

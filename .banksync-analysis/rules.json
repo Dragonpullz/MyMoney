@@ -1,0 +1,48 @@
+{
+  "defaultAccountId": "P45rzOvVJ7uA59M1o3REU5gvZvmzQ7Igk6yM9",
+  "defaultAccountName": "House Checking",
+
+  "virtualCategories": {
+    "Groceries":    ["Food And Drink Groceries"],
+    "Dining Out":   ["Food And Drink Restaurant", "Food And Drink Fast Food", "Food And Drink Coffee", "Food And Drink Beer Wine And Liquor"],
+    "Gas":          ["Transportation Gas"],
+    "Transit":      ["Transportation Public Transit", "Transportation Taxis And Ride Shares", "Transportation Parking", "Transportation Tolls"],
+    "Pets":         ["Medical Veterinary Services", "General Merchandise Pet Supplies"],
+    "Health":       ["Medical"],
+    "Housing":      ["Loan Payments Mortgage Payment", "Rent And Utilities Rent", "Rent And Utilities Gas And Electricity", "Rent And Utilities Water", "Rent And Utilities Sewage And Waste Management", "Rent And Utilities Telephone", "Rent And Utilities Internet", "Home Improvement"],
+    "Insurance":    ["General Services Insurance"],
+    "Entertainment":["Entertainment"],
+    "Subscriptions":["General Services Other General Services", "Entertainment Video And Audio Media", "General Services Storage"],
+    "Shopping":     ["General Merchandise"],
+    "Travel":       ["Travel"],
+    "Income":       ["Income", "Transfer In Deposit"],
+    "Transfers":    ["Transfer In", "Transfer Out"],
+    "Fees":         ["Bank Fees"]
+  },
+
+  "excludeFromHouseholdSpend": [
+    "Transfer In",
+    "Transfer Out",
+    "Loan Payments Credit Card Payment"
+  ],
+
+  "merchantAliases": {
+    "AMAZON":            "Amazon",
+    "AMZN":              "Amazon",
+    "INSTACART":         "Instacart",
+    "TRADER JOE":        "Trader Joe's",
+    "FOOD 4 LESS":       "Food 4 Less",
+    "COSTCO":            "Costco",
+    "CHEVRON":           "Chevron",
+    "SHELL":             "Shell",
+    "ARCO":              "Arco",
+    "76 ":               "76",
+    "NETFLIX":           "Netflix",
+    "SPOTIFY":           "Spotify",
+    "HBO MAX":           "HBO Max",
+    "OPENAI":            "OpenAI",
+    "GITHUB":            "GitHub",
+    "ANTHROPIC":         "Anthropic",
+    "ACTIVISION":        "Activision"
+  }
+}

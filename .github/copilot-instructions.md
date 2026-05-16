@@ -143,6 +143,9 @@ Transaction shape worth knowing: `id`, `date` (ISO UTC), `description`, `merchan
 
 - `query.ps1` — **canonical**; see above.
 - `Import-BankSyncDump.ps1` — copies MCP transaction JSON dumps into `.banksync-cache/` (raw + normalized JSONL + manifest). Run after a fresh MCP fetch: `.\Import-BankSyncDump.ps1 -Files <content.json paths>`.
+- `Build-Summary.ps1` — rolls the normalized cache into `.banksync-cache/summary.json` (per-account, per-month spend/income/net/savingsRate + `byCategory`, `byVirtualCategory`, top merchants). Use this for trend / overview questions instead of re-loading the JSONL. Run after each import.
+- `rules.json` — semantic layer: `defaultAccountId`, `virtualCategories` (e.g. `Dining Out`, `Pets`, `Housing`), `excludeFromHouseholdSpend` (transfers + CC payments by default), and `merchantAliases`. Edit this — both the importer and Build-Summary read from it.
+- `_Rules.ps1` — shared helper that loads `rules.json` with safe defaults (dot-sourced by the other scripts; not invoked directly).
 - `analyze.ps1` — full overview (categories / merchants / monthly / largest debits / recurring / fees / income). Takes `-Files` array of JSON pages.
 - `report.txt` — last cached `analyze.ps1` output (data through ~May 1 2026).
 
