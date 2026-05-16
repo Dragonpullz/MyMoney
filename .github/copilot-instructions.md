@@ -144,6 +144,10 @@ Transaction shape worth knowing: `id`, `date` (ISO UTC), `description`, `merchan
 - `query.ps1` — **canonical**; see above.
 - `Import-BankSyncDump.ps1` — copies MCP transaction JSON dumps into `.banksync-cache/` (raw + normalized JSONL + manifest). Run after a fresh MCP fetch: `.\Import-BankSyncDump.ps1 -Files <content.json paths>`.
 - `Build-Summary.ps1` — rolls the normalized cache into `.banksync-cache/summary.json` (per-account, per-month spend/income/net/savingsRate + `byCategory`, `byVirtualCategory`, top merchants). Use this for trend / overview questions instead of re-loading the JSONL. Run after each import.
+- `Get-MonthlyCashflow.ps1` — quick monthly income/spend/net table with 3-month trailing averages and YTD totals. Reads `summary.json`. `[-Months 12] [-AccountId | -AllAccounts] [-Format json]`.
+- `Find-Subscriptions.ps1` — detects recurring merchants in the last N months. Reports monthly average, annualized cost, cadence, and a price-jump flag. Reads `normalized.jsonl`. `[-MonthsBack 6] [-MinMonths 3] [-MinTotal 5] [-Format json]`.
+- `Find-Anomalies.ps1` — flags merchant outliers (>2σ), same-day duplicates, bank fees, large new-merchant charges, and refund/charge pairs. Reads `normalized.jsonl`. `[-WindowMonths 6] [-OutlierSigma 2] [-MinNewMerchantAmount 100] [-Format json]`.
+- `Find-Opportunities.ps1` — ranks potential improvements (category overruns, dining/grocery ratio, bank fees, top subscriptions) by estimated monthly impact. Combines `summary.json` + `normalized.jsonl`. `[-LookbackMonths 6] [-Format json]`.
 - `rules.json` — semantic layer: `defaultAccountId`, `virtualCategories` (e.g. `Dining Out`, `Pets`, `Housing`), `excludeFromHouseholdSpend` (transfers + CC payments by default), and `merchantAliases`. Edit this — both the importer and Build-Summary read from it.
 - `_Rules.ps1` — shared helper that loads `rules.json` with safe defaults (dot-sourced by the other scripts; not invoked directly).
 - `analyze.ps1` — full overview (categories / merchants / monthly / largest debits / recurring / fees / income). Takes `-Files` array of JSON pages.
