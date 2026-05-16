@@ -81,9 +81,9 @@ Notes:
   numeric prefix controls order.
 - `_shared.py` uses `@st.cache_data` keyed on the cache file mtimes so reloads
   are instant but auto-invalidate after a refresh.
-- Account picker defaults to **House Checking** (`P45rzOvVJ7uA59M1o3REU5gvZvmzQ7Igk6yM9`)
-  on every page, matching the repo convention in
-  `.github/copilot-instructions.md` and `rules.json`.
+- Account picker defaults to **House Checking** on every page, matching the
+  repo convention. Read the default account ID from `rules.json`
+  (`defaultAccountId`) at runtime — do not hard-code IDs in the UI layer.
 
 ## Page-by-Page Mapping
 
@@ -112,7 +112,11 @@ the existing local steps once dump JSON paths are pasted/selected:
        └─ st.cache_data.clear() and st.rerun()
 ```
 
-No background daemon, no scheduler — explicit and auditable.
+No background daemon, no scheduler — explicit and auditable. When wiring this
+up, pass uploaded files to the importer as a Python list via `subprocess.run`
+with `shell=False`, and validate that each resolved path stays inside the
+Streamlit upload temp dir (no `..`, no absolute paths from the browser) before
+handing it to the importer.
 
 ## Security / Privacy Notes
 
