@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "banksync": {
+      "type": "http",
+      "url": "https://mcp.banksync.io",
+      "headers": {
+        "X-API-Key": ""
+      }
+    }
+  }
+}

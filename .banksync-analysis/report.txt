@@ -1,0 +1,444 @@
+﻿
+Category                                      Count    Total
+--------                                      -----    -----
+Loan Payments Mortgage Payment                    8 34994.08
+Loan Payments Other Payment                      22 14020.77
+Loan Payments Credit Card Payment                11 13878.37
+Food And Drink Groceries                        142 13059.85
+Transfer Out Account Transfer                    64  9500.59
+Transfer Out Savings                              1     9000
+General Merchandise Online Marketplaces         167  7455.95
+Food And Drink Restaurant                        73  4436.24
+Rent And Utilities Gas And Electricity           24  3478.28
+General Services Education                       14  3182.22
+General Merchandise Superstores                  34  2999.32
+General Services Insurance                        7  2946.76
+Rent And Utilities Telephone                      8  2826.61
+General Merchandise Other General Merchandise    31   2278.9
+Food And Drink Fast Food                         63  2253.65
+Transportation Gas                               26   2239.1
+Medical Pharmacies And Supplements               56  2088.95
+Medical Veterinary Services                      25   1878.7
+General Merchandise Clothing And Accessories     21  1514.71
+General Services Other General Services          41  1408.94
+
+
+
+Merchant                      Count    Total     Avg
+--------                      -----    -----     ---
+Shellpoint Mortgage Servicing     8 34994.08 4374.26
+Ballast-jpm                      22 14020.77  637.31
+Food 4 Less                      38  6237.06  164.13
+Amazon                          154  5943.29   38.59
+PG&E                             17  3383.26  199.02
+Progressive Insurance             7  2946.76  420.97
+AT&T                              8  2826.61  353.33
+Trader Joe's                     41  2582.17   62.98
+Instacart Instacart.comca        16  2374.41   148.4
+Costco                           13  2124.28  163.41
+Transact Campus                   2     1928     964
+CVS                              45  1495.95   33.24
+eBay                             10  1255.81  125.58
+Sushiyaslo                       13  1189.69   91.51
+Ralphs                           27  1170.58   43.35
+Vetcove                          17  1126.81   66.28
+Apple                            22  1111.63   50.53
+San Luis Obispo                   9   927.57  103.06
+Chevron                           7   819.38  117.05
+Vegas Com                         1   797.16  797.16
+Mission Animal                    8   751.89   93.99
+Toscano Hoa                       9   750.86   83.43
+Shell                             9   743.26   82.58
+The Home Depot                    9   706.96   78.55
+Best Buy                          7   644.02      92
+Target                           11   596.08   54.19
+SLOCAL Roots                     11      593   53.91
+California DMV                    5   590.09  118.02
+Michaels                         11   570.55   51.87
+Ace Hardware                      6   531.66   88.61
+
+
+
+Month      Spend   Income Count
+-----      -----   ------ -----
+2025-08 11318.54 13177.19   134
+2025-09 33930.58 31817.64   198
+2025-10 11548.72 21854.16   129
+2025-11 22127.47 15780.29   185
+2025-12 15170.09 17805.79   221
+2026-01  13716.8 12834.09   154
+2026-02 16441.72 16418.69   131
+2026-03 21870.32  14927.6   184
+2026-04 10494.82 14548.52   112
+
+
+
+Date        Amount merchantName                  Category                      
+----        ------ ------------                  --------                      
+2025-09-11    9000                               Transfer Out Savings          
+2025-09-30 4374.26 Shellpoint Mortgage Servicing Loan Payments Mortgage Payment
+2025-11-02 4374.26 Shellpoint Mortgage Servicing Loan Payments Mortgage Payment
+2026-03-31 4374.26 Shellpoint Mortgage Servicing Loan Payments Mortgage Payment
+2026-01-01 4374.26 Shellpoint Mortgage Servicing Loan Payments Mortgage Payment
+2026-02-01 4374.26 Shellpoint Mortgage Servicing Loan Payments Mortgage Payment
+2025-09-01 4374.26 Shellpoint Mortgage Servicing Loan Payments Mortgage Payment
+2025-11-30 4374.26 Shellpoint Mortgage Servicing Loan Payments Mortgage Payment
+2026-03-01 4374.26 Shellpoint Mortgage Servicing Loan Payments Mortgage Payment
+2026-02-08    2990                               Loan Payments Credit Card     
+                                                 Payment                       
+2025-09-07 2438.82                               Loan Payments Credit Card     
+                                                 Payment                       
+2026-04-19    2000                               Loan Payments Credit Card     
+                                                 Payment                       
+2026-04-01    1733 Ballast-jpm                   Loan Payments Other Payment   
+2025-10-08 1487.83                               Loan Payments Credit Card     
+                                                 Payment                       
+2026-01-04  1412.5 Ballast-jpm                   Loan Payments Other Payment   
+2025-12-02  1412.5 Ballast-jpm                   Loan Payments Other Payment   
+2025-09-02  1412.5 Ballast-jpm                   Loan Payments Other Payment   
+2025-10-02  1412.5 Ballast-jpm                   Loan Payments Other Payment   
+2026-02-02  1412.5 Ballast-jpm                   Loan Payments Other Payment   
+2026-03-02  1412.5 Ballast-jpm                   Loan Payments Other Payment   
+2025-08-03  1412.5 Ballast-jpm                   Loan Payments Other Payment   
+2025-11-02  1412.5 Ballast-jpm                   Loan Payments Other Payment   
+2025-08-24 1226.77                               Loan Payments Credit Card     
+                                                 Payment                       
+2025-08-25     989 Transact Campus               General Services Education    
+2026-02-10     939 Transact Campus               General Services Education    
+
+
+
+Merchant                      Count  AvgAmt StDev    Total Cat                 
+--------                      -----  ------ -----    ----- ---                 
+Shellpoint Mortgage Servicing     8 4374.26     0 34994.08 Loan Payments Mor...
+Progressive Insurance             7  420.97 13.38  2946.76 General Services ...
+AT&T                              8  353.33 24.31  2826.61 Rent And Utilitie...
+San Luis Obispo                   9  103.06  5.48   927.57 General Services ...
+Chevron                           7  117.05 24.47   819.38 Transportation Gas  
+Toscano Hoa                       9   83.43  7.61   750.86 Rent And Utilitie...
+SLOCAL Roots                     11   53.91  9.96      593 Medical Pharmacie...
+Waste Connection                  4  112.74 13.28   450.94 Rent And Utilitie...
+John's Gas Statio                 4   74.86 19.32   299.44 Transportation Gas  
+OpenAI                           11   19.09  2.87      210 General Services ...
+Netflix                           8   25.86  2.31   206.91 Entertainment Tv ...
+Habit San Luis Obispo             4   43.98 11.73   175.91 Food And Drink Fa...
+Sport Clips                       3    57.7  6.65    173.1 Personal Care Hai...
+Spotify                           8   20.49  0.87   163.92 Entertainment Mus...
+Budget Cafe Sn                    3   54.26 10.16   162.78 Food And Drink Re...
+HBO Max                           9   17.82  0.75   160.41 Entertainment Tv ...
+Chewy                             3   50.59     0   151.77 General Merchandi...
+Todo Bueno                        5    28.1  2.08   140.49 Food And Drink Re...
+Chichos                           3   46.76 10.01   140.28 Food And Drink Re...
+Mind Path Health                  7      20     0      140 Medical Primary Care
+High Street Market                3   43.89 11.26   131.67 General Merchandi...
+Headway                           6      20     0      120 Personal Care Oth...
+Crunchyroll                       8   12.82  0.69   102.58 Entertainment Tv ...
+In-N-Out Burger                   3   26.86  7.12    80.57 Food And Drink Fa...
+Cottagehea                        3   23.33  4.71       70 Medical Primary Care
+MLB                               3   19.99     0    59.97 Entertainment Tv ...
+ChargePoint                       4      10     0       40 Transportation Ot...
+GitHub                            7       4     0       28 General Services ...
+City Of Slo Pkg Apps              8    3.43  1.78    27.43 Transportation Pa...
+
+
+
+Date       debitAmount merchantName                   category                 
+----       ----------- ------------                   --------                 
+2026-04-20       14.27 Blackhorse Espresso & San Luis Food And Drink Coffee    
+2026-04-20       22.12 Blackhorse Espresso & San Luis Food And Drink Coffee    
+2026-04-19          30 Starbucks                      Food And Drink Coffee    
+2026-04-14         300                                Transfer Out Account     
+                                                      Transfer                 
+2026-04-12       34.75 Starbucks                      Food And Drink Coffee    
+2026-04-12      152.85 Lemos Feed & Pet               General Merchandise Pet  
+                                                      Supplies                 
+2026-04-08        58.5                                Transfer Out Withdrawal  
+2026-04-08           0                                Bank Fees Atm Fees       
+2026-04-08           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-04-05         110                                Transfer Out Account     
+                                                      Transfer                 
+2026-04-05       24.07 Linnaea's Cafe                 Food And Drink Coffee    
+2026-04-05         300                                Transfer Out Account     
+                                                      Transfer                 
+2026-04-05           0                                Transfer In Account      
+                                                      Transfer                 
+2026-04-01          45 Starbucks                      Food And Drink Coffee    
+2026-03-31           0                                Transfer In Account      
+                                                      Transfer                 
+2026-03-31          75                                Transfer Out Account     
+                                                      Transfer                 
+2026-03-31         150                                Transfer Out Account     
+                                                      Transfer                 
+2026-03-29        32.1 Starbucks                      Food And Drink Coffee    
+2026-03-29           0                                Bank Fees Atm Fees       
+2026-03-29           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-29          30 Starbucks                      Food And Drink Coffee    
+2026-03-29           0                                Bank Fees Atm Fees       
+2026-03-29           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-26       13.04 Slo Public Market              Food And Drink Coffee    
+2026-03-25       21.75 The Caffeinated Cat            Food And Drink Coffee    
+2026-03-24           0                                Bank Fees Atm Fees       
+2026-03-24        93.5                                Transfer Out Withdrawal  
+2026-03-24           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-22           0                                Bank Fees Atm Fees       
+2026-03-22           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-19           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-19           0                                Bank Fees Atm Fees       
+2026-03-15           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-15           0                                Bank Fees Atm Fees       
+2026-03-12         300                                Transfer Out Account     
+                                                      Transfer                 
+2026-03-11        21.5 Nova Coffee Co                 Food And Drink Coffee    
+2026-03-09       16.75 Nova Coffee Co                 Food And Drink Coffee    
+2026-03-08           0                                Bank Fees Atm Fees       
+2026-03-08           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-08           0                                Bank Fees Atm Fees       
+2026-03-08           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-02           0                                Bank Fees Atm Fees       
+2026-03-02           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-03-02          11 Nova Coffee Co                 Food And Drink Coffee    
+2026-02-26          75                                Transfer Out Account     
+                                                      Transfer                 
+2026-02-26         150                                Transfer Out Account     
+                                                      Transfer                 
+2026-02-25           0                                Bank Fees Atm Fees       
+2026-02-25           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-02-23          25 Starbucks                      Food And Drink Coffee    
+2026-02-22           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-02-22           0                                Bank Fees Atm Fees       
+2026-02-19          11 Nova Coffee Co                 Food And Drink Coffee    
+2026-02-18           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-02-18           0                                Bank Fees Atm Fees       
+2026-02-16           0                                Bank Fees Atm Fees       
+2026-02-16           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-02-16          30 Starbucks                      Food And Drink Coffee    
+2026-02-12         300                                Transfer Out Account     
+                                                      Transfer                 
+2026-02-11         100                                Transfer Out Withdrawal  
+2026-02-08           0                                Bank Fees Atm Fees       
+2026-02-08           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-02-01      118.49 Lemos Feed & Pet               General Merchandise Pet  
+                                                      Supplies                 
+2026-01-29         150                                Transfer Out Account     
+                                                      Transfer                 
+2026-01-29          75                                Transfer Out Account     
+                                                      Transfer                 
+2026-01-27          25 Starbucks                      Food And Drink Coffee    
+2026-01-27        16.1 Starbucks                      Food And Drink Coffee    
+2026-01-19       29.95 Lemos Feed & Pet               General Merchandise Pet  
+                                                      Supplies                 
+2026-01-19         100                                Transfer Out Account     
+                                                      Transfer                 
+2026-01-15        9.97 Greenhouse Coffee              Food And Drink Coffee    
+2026-01-14         300                                Transfer Out Account     
+                                                      Transfer                 
+2026-01-13         300                                Transfer Out Account     
+                                                      Transfer                 
+2026-01-11           0                                Bank Fees Atm Fees       
+2026-01-11           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2026-01-08        4.25 Nova Coffee Co                 Food And Drink Coffee    
+2026-01-07       25.32 Greenhouse Coffee              Food And Drink Coffee    
+2026-01-05           0                                Transfer In Account      
+                                                      Transfer                 
+2026-01-04          25 Starbucks                      Food And Drink Coffee    
+2026-01-04          25 Starbucks                      Food And Drink Coffee    
+2026-01-04           0                                Transfer In Account      
+                                                      Transfer                 
+2026-01-01       60.13 Lemos Feed & Pet               General Merchandise Pet  
+                                                      Supplies                 
+2025-12-30         200                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-30           0                                Transfer In Deposit      
+2025-12-30         150                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-30          75                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-28           0                                Bank Fees Atm Fees       
+2025-12-28          40 Starbucks                      Food And Drink Coffee    
+2025-12-28           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-12-25           0                                Bank Fees Atm Fees       
+2025-12-25           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-12-23         100                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-23          90                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-22           0                                Bank Fees Atm Fees       
+2025-12-22         120                                Transfer Out Withdrawal  
+2025-12-22           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-12-21           0                                Bank Fees Atm Fees       
+2025-12-21           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-12-21         100                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-21        9.44 Sweetie Cup Tea House          Food And Drink Coffee    
+2025-12-17           0                                Bank Fees Atm Fees       
+2025-12-17           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-12-16          25 Starbucks                      Food And Drink Coffee    
+2025-12-14           0                                Bank Fees Atm Fees       
+2025-12-14           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-12-14         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-14       33.08 Nautical Bean                  Food And Drink Coffee    
+2025-12-14         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-11       44.92 Lemos Feed & Pet               General Merchandise Pet  
+                                                      Supplies                 
+2025-12-10         145                                Transfer Out Account     
+                                                      Transfer                 
+2025-12-10           0                                Bank Fees Atm Fees       
+2025-12-10        43.5                                Transfer Out Withdrawal  
+2025-12-10           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-12-07           0                                Bank Fees Atm Fees       
+2025-12-07        70.5 Lemos Feed & Pet               General Merchandise Pet  
+                                                      Supplies                 
+2025-12-07           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-12-04           0                                Bank Fees Atm Fees       
+2025-12-04           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-11-30          75                                Transfer Out Account     
+                                                      Transfer                 
+2025-11-30         150                                Transfer Out Account     
+                                                      Transfer                 
+2025-11-30           0                                Bank Fees Atm Fees       
+2025-11-30           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-11-27           0                                Bank Fees Atm Fees       
+2025-11-27           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-11-25           0                                Bank Fees Atm Fees       
+2025-11-25           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-11-24           0                                Transfer In Account      
+                                                      Transfer                 
+2025-11-24       18.75 Nova Coffee Co                 Food And Drink Coffee    
+2025-11-20           0                                Bank Fees Atm Fees       
+2025-11-20           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-11-16       14.89 Starbucks                      Food And Drink Coffee    
+2025-11-13         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-11-12        12.2 Starbucks                      Food And Drink Coffee    
+2025-11-11       22.74 Kabod Coffee Second            Food And Drink Coffee    
+2025-11-09       16.15 Starbucks                      Food And Drink Coffee    
+2025-11-06         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-11-06        35.2 Nova Coffee Co                 Food And Drink Coffee    
+2025-11-05       25.32 Greenhouse Coffee              Food And Drink Coffee    
+2025-11-04        3.33 California DMV                 Government And Non       
+                                                      Profit Government        
+                                                      Departments And Agencies 
+2025-10-30         150                                Transfer Out Account     
+                                                      Transfer                 
+2025-10-30          75                                Transfer Out Account     
+                                                      Transfer                 
+2025-10-26        8.88 Greenhouse Coffee              Food And Drink Coffee    
+2025-10-21         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-10-21           0                                Transfer In Account      
+                                                      Transfer                 
+2025-10-19          80                                Transfer Out Account     
+                                                      Transfer                 
+2025-10-14         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-10-09        7.88 Greenhouse Coffee              Food And Drink Coffee    
+2025-10-02         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-30          75                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-30         150                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-29           0                                Transfer In Account      
+                                                      Transfer                 
+2025-09-28         150                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-18         100                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-14          25 Starbucks                      Food And Drink Coffee    
+2025-09-14          60                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-14          75                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-14         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-11        9000                                Transfer Out Savings     
+2025-09-11         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-09-04        8.97 Greenhouse Coffee              Food And Drink Coffee    
+2025-09-01          25 Starbucks                      Food And Drink Coffee    
+2025-09-01       22.02 Greenhouse Coffee              Food And Drink Coffee    
+2025-09-01           0                                Transfer In Account      
+                                                      Transfer                 
+2025-08-28           0                                Bank Fees Atm Fees       
+2025-08-28           0 Preferred Rewards-atm          Bank Fees Atm Fees       
+2025-08-28         150                                Transfer Out Account     
+                                                      Transfer                 
+2025-08-18       17.03 Sequel Tea                     Food And Drink Coffee    
+2025-08-18           0                                Transfer In Account      
+                                                      Transfer                 
+2025-08-14         300                                Transfer Out Account     
+                                                      Transfer                 
+2025-08-14        7.88 Greenhouse Coffee              Food And Drink Coffee    
+2025-08-10          25 Starbucks                      Food And Drink Coffee    
+2025-08-04        22.5 Starbucks                      Food And Drink Coffee    
+2025-08-04          10 Bru Coffeehouse                Food And Drink Coffee    
+
+
+
+Date       creditAmount merchantName category     Desc                         
+----       ------------ ------------ --------     ----                         
+2025-09-11     11418.72              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-12-11      3782.61              Income Wages CITY OF ARROYO G DES:DIRECT  
+                                                  DEP ID:219 INDN:THERESA WREN 
+                                                  CO ID:XXXXX00                
+2025-12-25      3773.62              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2026-02-05      3673.01              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2026-03-19         3673              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2026-03-05         3673              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2026-01-22      3672.99              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2026-02-19      3672.99              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2026-04-02      3672.99              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-10-02      3653.68              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-11-25      3653.68              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-10-16      3653.67              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-12-11      3653.67              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-10-30      3653.67              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-11-13      3653.66              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-09-18      3653.66              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2026-04-16      3631.07              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-08-07      3516.06              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-08-21      3516.06              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+2025-09-04      3516.05              Income Wages ACTIVISION BLIZZ DES:PAYROLL 
+                                                  ID:637290 INDN:WREN TIMOTHY  
+                                                  CO ID:XXXXX40                
+
+
