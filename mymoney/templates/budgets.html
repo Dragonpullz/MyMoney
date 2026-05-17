@@ -25,13 +25,13 @@
   <table>
     <thead><tr><th>Category</th><th>Budget</th><th>Spent</th><th>Remaining</th><th>Projection</th></tr></thead>
     <tbody>
-      {% for row in result.rows or [] %}
+      {% for row in result.categories or [] %}
         <tr>
           <td>{{ row.category }}</td>
           <td>{{ row.budget | money }}</td>
-          <td>{{ row.spent | money }}</td>
+          <td>{{ row.actual | money }}</td>
           <td>{{ row.remaining | money }}</td>
-          <td>{{ row.projection | money }}</td>
+          <td>{{ row.projected | money }}</td>
         </tr>
       {% endfor %}
     </tbody>

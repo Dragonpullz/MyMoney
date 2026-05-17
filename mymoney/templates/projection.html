@@ -31,8 +31,8 @@
 
 {% if result %}
   <p class="muted">
-    {{ result.scope }} · 3-mo avg {{ result.threeMonthAverage | money }} ·
-    12-mo avg {{ result.twelveMonthAverage | money }}
+    {{ result.scope }} · 3-mo avg {{ result.avg3 | money }} ·
+    12-mo avg {{ result.avg12 | money }}
   </p>
   <table>
     <thead><tr><th>Month</th><th>Forecast</th><th>Low (-2σ)</th><th>High (+2σ)</th></tr></thead>

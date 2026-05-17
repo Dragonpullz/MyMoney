@@ -5,6 +5,7 @@ from __future__ import annotations
 from flask import Blueprint, jsonify, render_template, request
 
 from banksync_analysis import commands  # type: ignore[import-not-found]
+from banksync_analysis.core import current_month  # type: ignore[import-not-found]
 
 from ..auth import requires_login
 from ..data import account_choices, cache_available, default_account_id, safe_error, truthy
@@ -14,7 +15,7 @@ bp = Blueprint("budgets", __name__)
 
 
 def _run():
-    month = request.args.get("month") or None
+    month = request.args.get("month") or current_month()
     account_id = request.args.get("account_id") or default_account_id()
     all_accounts = truthy(request.args.get("all_accounts"))
     if not cache_available():
@@ -43,7 +44,7 @@ def index():
         error=error,
         accounts=account_choices(),
         defaults={
-            "month": request.args.get("month", ""),
+            "month": request.args.get("month") or current_month(),
             "account_id": request.args.get("account_id") or default_account_id(),
             "all_accounts": truthy(request.args.get("all_accounts")),
         },
