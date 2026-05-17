@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}MyMoney · Query{% endblock %}
+
+{% block content %}
+<h1>Query transactions</h1>
+
+<form method="get" class="filters">
+  <label>
+    Category
+    <input list="presets" name="category" value="{{ defaults.category }}">
+    <datalist id="presets">
+      {% for preset in presets %}<option value="{{ preset }}">{% endfor %}
+    </datalist>
+  </label>
+  <label>From <input type="date" name="from" value="{{ defaults['from'] }}"></label>
+  <label>To <input type="date" name="to" value="{{ defaults.to }}"></label>
+  <label>
+    Account
+    <select name="account_id">
+      {% for acct_id, acct_name in accounts %}
+        <option value="{{ acct_id }}" {% if acct_id == defaults.account_id %}selected{% endif %}>{{ acct_name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label><input type="checkbox" name="all_accounts" value="1" {% if defaults.all_accounts %}checked{% endif %}> All accounts</label>
+  <label><input type="checkbox" name="income" value="1" {% if defaults.income %}checked{% endif %}> Income (credits)</label>
+  <label><input type="checkbox" name="by_merchant" value="1" {% if defaults.by_merchant %}checked{% endif %}> By merchant</label>
+  <label><input type="checkbox" name="detailed" value="1" {% if defaults.detailed %}checked{% endif %}> Transaction list</label>
+  <button type="submit">Run</button>
+</form>
+
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+{% if result %}
+  <h2>Total {{ result.total | money }} ({{ result.count }} txns)</h2>
+  <p class="muted">
+    {{ result.direction }} · {{ result.from }} → {{ result.to }} · {{ result.scope }}
+  </p>
+
+  {% if result.byMonth %}
+    <h3>By month</h3>
+    <table>
+      <thead><tr><th>Month</th><th>Count</th><th>Total</th></tr></thead>
+      <tbody>
+        {% for row in result.byMonth %}
+          <tr><td>{{ row.month }}</td><td>{{ row.count }}</td><td>{{ row.total | money }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {% if result.byMerchant %}
+    <h3>By merchant</h3>
+    <table>
+      <thead><tr><th>Merchant</th><th>Count</th><th>Total</th><th>Avg</th></tr></thead>
+      <tbody>
+        {% for row in result.byMerchant %}
+          <tr>
+            <td>{{ row.merchant }}</td>
+            <td>{{ row.count }}</td>
+            <td>{{ row.total | money }}</td>
+            <td>{{ row.avg | money }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {% if result.transactions %}
+    <h3>Transactions</h3>
+    <table>
+      <thead><tr><th>Date</th><th>Merchant</th><th>Category</th><th>Account</th><th>Amount</th></tr></thead>
+      <tbody>
+        {% for row in result.transactions %}
+          <tr>
+            <td>{{ row.date }}</td>
+            <td>{{ row.merchant }}</td>
+            <td>{{ row.category }}</td>
+            <td>{{ row.account }}</td>
+            <td>{{ row.amount | money }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% elif submitted and not error %}
+  <p class="empty">No transactions matched.</p>
+{% endif %}
+{% endblock %}

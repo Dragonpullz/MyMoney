@@ -18,6 +18,11 @@ __pycache__/
 # Local secrets
 .env
 .env.*
+.flaskenv
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
 
 # Local planning and handoff notes
 IMPROVEMENT_PLAN.md

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}MyMoney · Cashflow{% endblock %}
+
+{% block content %}
+<h1>Monthly cashflow</h1>
+
+<form method="get" class="filters">
+  <label>Months <input type="number" name="months" min="1" max="36" value="{{ defaults.months }}"></label>
+  <label>
+    Account
+    <select name="account_id">
+      {% for acct_id, acct_name in accounts %}
+        <option value="{{ acct_id }}" {% if acct_id == defaults.account_id %}selected{% endif %}>{{ acct_name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label><input type="checkbox" name="all_accounts" value="1" {% if defaults.all_accounts %}checked{% endif %}> All accounts</label>
+  <button type="submit">Run</button>
+</form>
+
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+{% if result %}
+  <p class="muted">Scope: {{ result.scope }}</p>
+  <table>
+    <thead><tr><th>Month</th><th>Spend</th><th>Income</th><th>Net</th><th>Spend 3-mo avg</th></tr></thead>
+    <tbody>
+      {% for row in result.months %}
+        <tr>
+          <td>{{ row.month }}</td>
+          <td>{{ row.spend | money }}</td>
+          <td>{{ row.income | money }}</td>
+          <td>{{ row.net | money }}</td>
+          <td>{{ row.spend3mAvg | money }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if result.ytd %}
+    <h3>YTD {{ result.ytd.year }}</h3>
+    <p>
+      Spend {{ result.ytd.spend | money }} ·
+      Income {{ result.ytd.income | money }} ·
+      Net {{ result.ytd.net | money }}
+    </p>
+  {% endif %}
+{% endif %}
+{% endblock %}

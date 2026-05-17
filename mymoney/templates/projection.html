@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}MyMoney · Projection{% endblock %}
+
+{% block content %}
+<h1>Spend / income projection</h1>
+
+<form method="get" class="filters">
+  <label>
+    Category
+    <select name="category">
+      {% for c in categories %}
+        <option value="{{ c }}" {% if c == defaults.category %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Months back <input type="number" name="months_back" min="1" max="36" value="{{ defaults.months_back }}"></label>
+  <label>Months forward <input type="number" name="months_forward" min="1" max="24" value="{{ defaults.months_forward }}"></label>
+  <label>
+    Account
+    <select name="account_id">
+      {% for acct_id, acct_name in accounts %}
+        <option value="{{ acct_id }}" {% if acct_id == defaults.account_id %}selected{% endif %}>{{ acct_name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label><input type="checkbox" name="all_accounts" value="1" {% if defaults.all_accounts %}checked{% endif %}> All accounts</label>
+  <button type="submit">Run</button>
+</form>
+
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+{% if result %}
+  <p class="muted">
+    {{ result.scope }} · 3-mo avg {{ result.threeMonthAverage | money }} ·
+    12-mo avg {{ result.twelveMonthAverage | money }}
+  </p>
+  <table>
+    <thead><tr><th>Month</th><th>Forecast</th><th>Low (-2σ)</th><th>High (+2σ)</th></tr></thead>
+    <tbody>
+      {% for row in result.forecast or [] %}
+        <tr>
+          <td>{{ row.month }}</td>
+          <td>{{ row.forecast | money }}</td>
+          <td>{{ row.low | money }}</td>
+          <td>{{ row.high | money }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}
