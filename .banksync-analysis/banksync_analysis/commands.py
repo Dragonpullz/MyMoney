@@ -86,7 +86,7 @@ def _scope_label(summary: dict[str, Any], account_id: str | None, all_accounts: 
     return account.get("accountName") or account_id
 
 
-def build_summary(cache_root: Path | None = None, top_merchants: int = 10) -> dict[str, Any]:
+def _legacy_build_summary(cache_root: Path | None = None, top_merchants: int = 10) -> dict[str, Any]:
     rules = get_rules()
     root = cache_root or REPO_ROOT / ".banksync-cache"
     cache_path = root / "normalized.jsonl"
@@ -226,7 +226,7 @@ def monthly_cashflow(months: int = 12, account_id: str | None = None, all_accoun
     return {"scope": scope, "months": rows, "ytd": ytd}
 
 
-def budget_status(month: str | None = None, account_id: str | None = None, all_accounts: bool = False, budget_path: Path | None = None, summary_path: Path | None = None) -> dict[str, Any]:
+def _legacy_budget_status(month: str | None = None, account_id: str | None = None, all_accounts: bool = False, budget_path: Path | None = None, summary_path: Path | None = None) -> dict[str, Any]:
     rules = get_rules()
     account_id = account_id or rules["defaultAccountId"]
     month = month or _current_month()
@@ -626,7 +626,7 @@ def _month_value(month_value: dict[str, Any], mode: str, key: str) -> float:
     return total
 
 
-def project_spend(category: str = "Spend", months_back: int = 12, months_forward: int = 6, account_id: str | None = None, all_accounts: bool = False, summary_path: Path | None = None, cache_path: Path | None = None) -> dict[str, Any]:
+def _legacy_project_spend(category: str = "Spend", months_back: int = 12, months_forward: int = 6, account_id: str | None = None, all_accounts: bool = False, summary_path: Path | None = None, cache_path: Path | None = None) -> dict[str, Any]:
     rules = get_rules()
     account_id = account_id or rules["defaultAccountId"]
     summary = read_summary(summary_path)
@@ -750,7 +750,7 @@ def project_spend(category: str = "Spend", months_back: int = 12, months_forward
     }
 
 
-def import_dump(files: list[Path], fetch_label: str | None = None, cache_root: Path | None = None) -> dict[str, Any]:
+def _legacy_import_dump(files: list[Path], fetch_label: str | None = None, cache_root: Path | None = None) -> dict[str, Any]:
     root = cache_root or REPO_ROOT / ".banksync-cache"
     raw_root = root / "raw"
     raw_root.mkdir(parents=True, exist_ok=True)
@@ -839,7 +839,7 @@ def import_dump(files: list[Path], fetch_label: str | None = None, cache_root: P
     return {"totalIn": total_in, "new": new_count, "updated": updated_count, "cacheTotal": len(existing), "cacheRoot": str(root)}
 
 
-def build_monthly_report(month: str | None = None, account_id: str | None = None, all_accounts: bool = False, out_dir: Path | None = None, summary_path: Path | None = None, cache_path: Path | None = None) -> Path:
+def _legacy_build_monthly_report(month: str | None = None, account_id: str | None = None, all_accounts: bool = False, out_dir: Path | None = None, summary_path: Path | None = None, cache_path: Path | None = None) -> Path:
     rules = get_rules()
     account_id = account_id or rules["defaultAccountId"]
     summary = read_summary(summary_path)
@@ -1191,13 +1191,14 @@ def month_values_for_scope(summary: dict[str, Any], account_id: str, all_account
     }
 
 
-def import_dump(files: list[str], fetch_label: str, cache_root: Path | None = None) -> dict[str, Any]:
+def import_dump(files: list[str | Path], fetch_label: str | None = None, cache_root: Path | None = None) -> dict[str, Any]:
     root = cache_root or REPO_ROOT / ".banksync-cache"
     raw_root = root / "raw"
     root.mkdir(parents=True, exist_ok=True)
     raw_root.mkdir(parents=True, exist_ok=True)
     normalized_path = root / "normalized.jsonl"
     manifest_path = root / "manifest.json"
+    fetch_label = fetch_label or date.today().isoformat()
 
     rules = get_rules()
     aliases = get_merchant_alias_map(rules)
@@ -1290,7 +1291,7 @@ def import_dump(files: list[str], fetch_label: str, cache_root: Path | None = No
         for transaction in sorted_transactions:
             handle.write(compact_json(transaction) + "\n")
     write_json(manifest_path, {"accounts": accounts, "fetches": fetches})
-    return {"input": total_in, "new": new_count, "updated": updated_count, "total": len(existing), "cacheRoot": str(root)}
+    return {"totalIn": total_in, "new": new_count, "updated": updated_count, "cacheTotal": len(existing), "cacheRoot": str(root)}
 
 
 def build_summary(cache_root: Path | None = None, top_merchants: int = 10) -> dict[str, Any]:
